@@ -1,83 +1,10 @@
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip} from "recharts";
-import trelloState from "trello-state";
-import moment from "moment";
 /**/
-import {fetchBoards, chooseBoard, fetchBoardInfo, setApiKey, setToken} from "../actions";
-
+import Dashboard from "./dashboard";
+import Setup from "./setup";
 
 class Home extends React.Component {
-
-  getStartDate(days) {
-    const date = moment();
-    const pacificOffset = 7;
-    date.utcOffset(0).set("hour", pacificOffset).subtract(days, "days");
-    return date;
-  }
-
-  calcCfdData({lists, cards}) {
-    const cfdData = [];
-    const days = 60;
-    const date = this.getStartDate(days);
-    for (let num = 0; num <= days; num++) {
-      date.add(1, "days");
-      const node = { name: date.format("l") };
-      lists.forEach((list) => {
-        node[list.id] = 0;
-      });
-      const cardsOn = trelloState.on(cards, date.toDate());
-      cardsOn.forEach((card) => {
-        node[card.idList] += 1;
-      });
-      cfdData.push(node);
-    }
-    return cfdData;
-  }
-
-  createCfdChart({boards, lists, cards, cfd}) {
-    if (!cfd.board || !boards.length || !lists.length || !cards.length) {
-      return (<span>chart not ready</span>);
-    }
-    const cfdData = this.calcCfdData({lists, cards});
-    const areas = [];
-    const colors = ["#ff6600", "#fed039", "#8da0af", "#a2bc55",
-      "#4f5052", "#fdc68d", "#331f4d", "#e11212", "#f2ea30"];
-    lists.forEach((list, idx) => {
-      areas.push(<Area type="linear"
-        stackId="1"
-        dataKey={list.id}
-        name={list.name}
-        stroke={colors[idx]}
-        fill={colors[idx]} />);
-    });
-    return (
-      <AreaChart width={1000} height={800} data={cfdData}>
-        <XAxis dataKey="name"/>
-        <YAxis/>
-        <CartesianGrid strokeDasharray="3 3"/>
-        <Tooltip/>
-        {areas}
-      </AreaChart>
-    );
-  }
-
-  fetchBoardsClick() {
-    this.props.dispatch(fetchBoards());
-  }
-
-  chooseBoard(id) {
-    this.props.dispatch(chooseBoard(id));
-    this.props.dispatch(fetchBoardInfo(id));
-  }
-
-  apiKeyChange(e) {
-    this.props.dispatch(setApiKey(e.target.value));
-  }
-
-  tokenChange(e) {
-    this.props.dispatch(setToken(e.target.value));
-  }
 
   render() {
     const auth = this.props.auth;
@@ -85,59 +12,12 @@ class Home extends React.Component {
     const lists = this.props.lists;
     const cfd = this.props.cfd;
     const cards = this.props.cards;
-    const boardNodes = [];
-    if (boards && boards.length > 0) {
-      boards.forEach((board) => {
-        const selected = (this.props.cfd.board === board.id) ? "-->" : "";
-        const el = (
-          <div className="item" onClick={this.chooseBoard.bind(this, board.id)}>
-            {selected} {board.name}
-          </div>);
-        boardNodes.push(el);
-      });
+    let component = <Dashboard />;
+    if (!auth.token || !auth.apiKey || !boards.length || !lists.length || !cards.length) {
+      component = <Setup />;
     }
     return (
-      <div className="ui container">
-        <div className="ui two column stackable grid">
-          <div className="sixteen wide column">
-            <h1>Step 1: Enter api information </h1>
-          </div>
-          <div className="column">
-            <div className="ui form">
-              <div className="two fields">
-                <div className="field">
-                  <label>Token</label>
-                  <input
-                    type="text"
-                    onChange={this.tokenChange.bind(this)}
-                    value={auth.token}/>
-                </div>
-                <div className="field">
-                  <label>API Key</label>
-                  <input
-                    type="text"
-                    onChange={this.apiKeyChange.bind(this)}
-                    value={auth.apiKey}/>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="ui one column grid">
-          <div className="column">
-            <h1>Step 2: Select board</h1>
-          </div>
-          <div className="column">
-            <button onClick={this.fetchBoardsClick.bind(this)} className="ui primary button">
-              Get Boards
-            </button>
-          </div>
-          <div className="column">
-            <div className="list">{boardNodes}</div>
-          </div>
-        </div>
-        {this.createCfdChart({boards, lists, cards, cfd})}
-      </div>
+      <div>{component}</div>
     );
   }
 }
