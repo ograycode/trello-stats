@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{META_TAGS}}
+    <title>{{PAGE_TITLE}}</title>
+    {{CRITICAL_CSS}}
+    {{PREFETCH_BUNDLES}}
+    {{WEBAPP_HEADER_BUNDLES}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" />
+</head>
+<body>
+<div class="js-content">{{SSR_CONTENT}}</div>
+{{WEBAPP_BODY_BUNDLES}}
+<script>if (window.webappStart) webappStart();</script>
+<noscript>
+  <h4>JavaScript is Disabled</h4>
+  <p>Sorry, this webpage requires JavaScript to function correctly.</p>
+  <p>Please enable JavaScript in your browser and reload the page.</p>
+</noscript>
+</body>
+</html>

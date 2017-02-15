@@ -90,35 +90,51 @@ class Home extends React.Component {
       boards.forEach((board) => {
         const selected = (this.props.cfd.board === board.id) ? "-->" : "";
         const el = (
-          <li onClick={this.chooseBoard.bind(this, board.id)}>
+          <div className="item" onClick={this.chooseBoard.bind(this, board.id)}>
             {selected} {board.name}
-          </li>);
+          </div>);
         boardNodes.push(el);
       });
     }
     return (
-      <div>
-        <div>
-          <h1>Step 1: Enter api information </h1>
-          <p>
-            Token:
-            <input
-              type="text"
-              onChange={this.tokenChange.bind(this)}
-              value={auth.token}/>
-            </p>
-          <p>
-            API Key:
-            <input
-              type="text"
-              onChange={this.apiKeyChange.bind(this)}
-              value={auth.apiKey}/>
-          </p>
+      <div className="ui container">
+        <div className="ui two column stackable grid">
+          <div className="sixteen wide column">
+            <h1>Step 1: Enter api information </h1>
+          </div>
+          <div className="column">
+            <div className="ui form">
+              <div className="two fields">
+                <div className="field">
+                  <label>Token</label>
+                  <input
+                    type="text"
+                    onChange={this.tokenChange.bind(this)}
+                    value={auth.token}/>
+                </div>
+                <div className="field">
+                  <label>API Key</label>
+                  <input
+                    type="text"
+                    onChange={this.apiKeyChange.bind(this)}
+                    value={auth.apiKey}/>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h1>Step 2: Select board</h1>
-          <button onClick={this.fetchBoardsClick.bind(this)}>Get Boards</button>
-          <ul>{boardNodes}</ul>
+        <div className="ui one column grid">
+          <div className="column">
+            <h1>Step 2: Select board</h1>
+          </div>
+          <div className="column">
+            <button onClick={this.fetchBoardsClick.bind(this)} className="ui primary button">
+              Get Boards
+            </button>
+          </div>
+          <div className="column">
+            <div className="list">{boardNodes}</div>
+          </div>
         </div>
         {this.createCfdChart({boards, lists, cards, cfd})}
       </div>

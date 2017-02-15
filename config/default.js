@@ -22,6 +22,7 @@ module.exports = {
     "webapp": {
       "module": "electrode-react-webapp/lib/hapi",
       "options": {
+        "htmlFile": "src/server/index.html",
         "pageTitle": "trello stats",
         "paths": {
           "/{args*}": {
