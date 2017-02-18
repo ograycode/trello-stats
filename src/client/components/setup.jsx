@@ -28,11 +28,11 @@ class Setup extends React.Component {
     const boards = this.props.boards;
     const lists = this.props.lists;
     const cards = this.props.cards;
-    const cfd = this.props.cfd;
+    const dash = this.props.dash;
     const boardNodes = [];
     if (boards && boards.length > 0) {
       boards.forEach((board) => {
-        const selected = (this.props.cfd.board === board.id) ? "-->" : "";
+        const selected = (dash.board === board.id) ? "-->" : "";
         const el = (
           <div className="item" onClick={this.chooseBoard.bind(this, board.id)}>
             {selected} {board.name}
@@ -91,7 +91,7 @@ Setup.propTypes = {
   lists: PropTypes.array.isRequired,
   cards: PropTypes.array.isRequired,
   auth: PropTypes.object.isRequired,
-  cfd: PropTypes.object.isRequired
+  dash: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -100,7 +100,7 @@ const mapStateToProps = (state) => {
     boards: state.trello.boards,
     lists: state.trello.lists,
     cards: state.trello.cards,
-    cfd: state.trello.cfd
+    dash: state.trello.dash
   };
 };
 

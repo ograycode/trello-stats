@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
   }
 
   calcCfdData({lists, cards}) {
-    const cfdData = [];
+    const dashData = [];
     const days = 60;
     const date = this.getStartDate(days);
     for (let num = 0; num <= days; num++) {
@@ -29,16 +29,16 @@ class Dashboard extends React.Component {
       cardsOn.forEach((card) => {
         node[card.idList] += 1;
       });
-      cfdData.push(node);
+      dashData.push(node);
     }
-    return cfdData;
+    return dashData;
   }
 
-  createCfdChart({boards, lists, cards, cfd}) {
-    if (!cfd.board || !boards.length || !lists.length || !cards.length) {
+  createCfdChart({boards, lists, cards, dash}) {
+    if (!dash.board || !boards.length || !lists.length || !cards.length) {
       return (<span>chart not ready</span>);
     }
-    const cfdData = this.calcCfdData({lists, cards});
+    const dashData = this.calcCfdData({lists, cards});
     const areas = [];
     const colors = ["#ff6600", "#fed039", "#8da0af", "#a2bc55",
       "#4f5052", "#fdc68d", "#331f4d", "#e11212", "#f2ea30"];
@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
         fill={colors[idx]} />);
     });
     return (
-      <AreaChart width={1000} height={800} data={cfdData}>
+      <AreaChart width={1000} height={800} data={dashData}>
         <XAxis dataKey="name"/>
         <YAxis/>
         <CartesianGrid strokeDasharray="3 3"/>
@@ -64,11 +64,11 @@ class Dashboard extends React.Component {
   render() {
     const boards = this.props.boards;
     const lists = this.props.lists;
-    const cfd = this.props.cfd;
+    const dash = this.props.dash;
     const cards = this.props.cards;
     return (
       <div className="ui container">
-        {this.createCfdChart({boards, lists, cards, cfd})}
+        {this.createCfdChart({boards, lists, cards, dash})}
       </div>
     );
   }
@@ -79,7 +79,7 @@ Dashboard.propTypes = {
   boards: PropTypes.array.isRequired,
   lists: PropTypes.array.isRequired,
   cards: PropTypes.array.isRequired,
-  cfd: PropTypes.object.isRequired
+  dash: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -87,7 +87,7 @@ const mapStateToProps = (state) => {
     boards: state.trello.boards,
     lists: state.trello.lists,
     cards: state.trello.cards,
-    cfd: state.trello.cfd
+    dash: state.trello.dash
   };
 };
 

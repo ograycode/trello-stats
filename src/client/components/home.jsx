@@ -10,7 +10,7 @@ class Home extends React.Component {
     const auth = this.props.auth;
     const boards = this.props.boards;
     const lists = this.props.lists;
-    const cfd = this.props.cfd;
+    const dash = this.props.dash;
     const cards = this.props.cards;
     let component = <Dashboard />;
     if (!auth.token || !auth.apiKey || !boards.length || !lists.length || !cards.length) {
@@ -27,7 +27,7 @@ Home.propTypes = {
   boards: PropTypes.array.isRequired,
   lists: PropTypes.array.isRequired,
   cards: PropTypes.array.isRequired,
-  cfd: PropTypes.object.isRequired,
+  dash: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
     boards: state.trello.boards,
     lists: state.trello.lists,
     cards: state.trello.cards,
-    cfd: state.trello.cfd
+    dash: state.trello.dash
   };
 };
 

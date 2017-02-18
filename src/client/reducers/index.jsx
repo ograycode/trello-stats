@@ -10,7 +10,7 @@ const trello = (store, action) => {
   case "BOARD_CARDS_COMPLETE":
     return _.merge({}, store, {cards: action.data});
   case "CHOOSE_BOARD":
-    return _.merge({}, store, {cfd: {board: action.data}});
+    return _.merge({}, store, {dash: {board: action.data}});
   case "SET_TOKEN":
     return _.merge({}, store, {auth: {token: action.data}});
   case "SET_API_KEY":
@@ -24,7 +24,7 @@ const trello = (store, action) => {
     boards: [],
     lists: [],
     cards: [],
-    cfd: {
+    dash: {
       board: undefined,
       data: []
     }
