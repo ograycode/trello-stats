@@ -66,6 +66,9 @@ class Setup extends React.Component {
               </div>
             </div>
           </div>
+          <div className="sixteen wide column">
+            <a href="https://trello.com/app-key" target="_new">Not sure were to get this?</a>
+          </div>
         </div>
         <div className="ui one column grid">
           <div className="column">
